@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>編輯廠商</title>
+</head>
+
+<body>
+
+    <div th:replace="~{layout/main :: layout(~{::section})}">
+
+        <section class="container py-4">
+
+            <h2 class="mb-4">修改廠商資料</h2>
+
+            <div class="card shadow-sm mx-auto" style="max-width: 900px;">
+                <div class="card-body">
+
+                    <form th:action="@{/suppliers/{supplierId}/edit(supplierId=${supplierId})}" th:object="${form}" method="post">
+
+                        <div th:replace="~{fragments/form-fields :: inputText('mb-3', '廠商名稱', 'supplierName')}"
+                             class="invalid-feedback d-block"
+                             th:if="${#fields.hasErrors('supplierName')}"
+                             th:errors="*{supplierName}"></div>
+
+                        <div th:replace="~{fragments/form-fields :: inputText('mb-3', '聯絡人', 'contactName')}"></div>
+
+                        <div th:replace="~{fragments/form-fields :: inputText('mb-3', '電話', 'phone')}"></div>
+
+                        <div th:replace="~{fragments/form-fields :: inputEmail('mb-3', 'email', 'email')}"></div>
+
+                        <div th:replace="~{fragments/form-fields :: inputText('mb-3', '付款條件', 'paymentTerm')}"></div>
+
+                        <div th:replace="~{fragments/form-fields :: inputTextarea('mb-3', '備註', 'note', 4)}"></div>
+
+                        <div class="d-flex justify-content-end gap-2 mt-4">
+                            <button class="btn btn-success" type="submit">
+                                儲存
+                            </button>
+
+                            <a class="btn btn-outline-secondary" th:href="@{/suppliers/{supplierId}(supplierId=${supplierId})}">
+                                返回
+                            </a>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+        </section>
+    </div>
+
+</body>
+
+</html>

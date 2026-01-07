@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>異動明細</title>
+</head>
+
+<body>
+
+    <div th:replace="~{layout/main :: layout(~{::section})}">
+
+        <section class="container py-4">
+
+            <h2 class="mb-4">異動明細輸入</h2>
+
+            <div class="card shadow-sm mx-auto" style="max-width: 900px;">
+                <div class="card-body">
+
+                    <form th:action="@{/inventorylogs/create}" th:object="${inventoryForm}"
+                        method="post">
+
+                        <div th:replace="~{fragments/form-fields :: inputText('mb-3', '商品編號', 'itemId')}"
+                             class="invalid-feedback d-block"
+                             th:if="${#fields.hasErrors(itemId')}"
+                             th:errors="*{itemId}"></div>
+
+                        <div th:replace="~{fragments/form-fields :: inputNumber(mb-3, '異動數量', 'changeQuantity')}"
+                             class="invalid-feedback d-block"
+                             th:if="${#fields.hasErrors(changeQuantity')}"
+                             th:errors="*{changeQuantity}"></div>
+
+                        <div th:replace="~{fragments/form-fields :: selectEnum(
+                            '異動類型', 
+                            'movementType', 
+                            ${movementTypes}, 
+                            'displayName'
+                            )}">
+                        </div>
+
+                        <div th:replace="~{fragments/form-fields :: inputTextarea('mb-3', 'note', 'note', 4)}"></div>
+
+                        <!-- 按鈕 -->
+                        <div class="d-flex justify-content-end gap-2 mt-4">
+                            <button class="btn btn-success" type="submit">
+                                儲存
+                            </button>
+
+                            <a class="btn btn-outline-secondary"
+                                th:href="@{/inventorylogs}">
+                                返回
+                            </a>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+        </section>
+    </div>
+
+</body>
+
+</html>

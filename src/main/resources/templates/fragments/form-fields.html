@@ -1,0 +1,128 @@
+<!-- 文字欄位 -->
+<th:block th:fragment="inputText(colClass, label, fieldName)">
+    <div th:class="${colClass}">
+        <label class="form-label" th:text="${label}"></label>
+
+        <input type="text"
+               class="form-control"
+               th:field="*{__${fieldName}__}"
+               th:classappend="${#fields.hasErrors(fieldName)} ? 'is-invalid' : ''">
+        
+        <div class="invalid-feedback"
+             th:if="${#fields.hasErrors(fieldName)}"
+             th:errors="*{__${fieldName}__}">
+        </div>
+    </div>
+</th:block>
+
+<!-- 數字欄位 -->
+<th:block th:fragment="inputNumber(colClass, label, fieldName)">
+    <div th:class="${colClass}">
+        <label class="form-label" th:text="${label}"></label>
+
+        <input type="number"
+               class="form-control"
+               th:field="*{__${fieldName}__}"
+               th:classappend="${#fields.hasErrors(fieldName)} ? ' is-invalid' : ''">
+
+        <div class="invalid-feedback"
+             th:if="${#fields.hasErrors(fieldName)}"
+             th:errors="*{__${fieldName}__}">
+        </div>
+    </div>
+</th:block>
+
+<!-- 密碼欄位 -->
+<th:block th:fragment="inputPassword(colClass, label, fieldName)">
+    <div th:class="${colClass}">
+        <label class="form-label" th:text="${label}"></label>
+
+        <input type="password" class="form-control" th:field="*{__${fieldName}__}"
+            th:classappend="${#fields.hasErrors(fieldName)} ? ' is-invalid' : ''">
+
+        <div class="invalid-feedback" th:if="${#fields.hasErrors(fieldName)}" th:errors="*{__${fieldName}__}">
+        </div>
+    </div>
+</th:block>
+
+<!-- Enum 下拉選單欄位 -->
+<th:block th:fragment="selectEnum(label, fieldName, options, textProp)">
+    <div class="col-md-4">
+        <label class="form-label" th:text="${label}"></label>
+
+        <select class="form-select"
+                th:field="*{__${fieldName}__}"
+                th:classappend="${#fields.hasErrors(fieldName)} ? ' is-invalid' : ''">
+        
+            <option value="" disabled>請選擇</option>
+
+            <option th:each="option : ${options}"
+                    th:value="${option instanceof T(java.lang.Enum) ? option.name() : option}"
+                    th:text="${textProp != null ? option.displayName : option}">
+            </option>
+        </select>
+
+        <div class="invalid-feedback"
+             th:if="${#fields.hasErrors(fieldName)}"
+             th:errors="*{__${fieldName}__}">
+        </div>
+    </div>
+</th:block>
+
+<!-- 供應商下拉選單 -->
+<th:block th:fragment="selectSupplier(label, fieldName, suppliers)">
+    <div class="col-md-4">
+        <label class="form-label" th:text="${label}"></label>
+
+        <select class="form-select"
+                th:field="*{__${fieldName}__}"
+                th:classappend="${#fields.hasErrors(fieldName)} ? ' is-invalid' : ''">
+            
+            <option value="">請選擇廠商</option>
+
+            <option th:each="s : ${suppliers}"
+                    th:value="${s.supplierId()}"
+                    th:text="${s.supplierName()}">
+            </option>
+        </select>
+    
+    <div class="invalid-feedback"
+         th:if="${#fields.hasErrors(fieldName)}"
+         th:errors="*{__${fieldName}__}"></div>
+    </div>
+</th:block>
+
+<!-- 備註欄位 -->
+<th:block th:fragment="inputTextarea(colClass, label, fieldName, rows)">
+    <div th:class="${colClass}">
+        <label class="form-label" th:text="${label}"></label>
+        
+        <textarea class="form-control" 
+                  th:field="*{__${fieldName}__}"
+                  th:classappend="${#fields.hasErrors(fieldName)} ? 'is-invalid' : ''"
+                  th:attr="rows=${rows}"
+                  placeholder="what to remind">
+        </textarea>
+        
+        <div class="invalid-feedback" 
+             th:if="${#fields.hasErrors(fieldName)}" 
+             th:errors="*{__${fieldName}__}">
+        </div>
+    </div>
+</th:block>
+
+<!-- email 欄位 -->
+<th:block th:fragment="inputEmail(colClass, label, fieldName)">
+    <div th:class="${colClass}">
+        <label class="form-label" th:text="${label}"></label>
+
+        <input type="email" 
+               class="form-control" 
+               th:field="*{__${fieldName}__}"
+               th:classappend="${#fields.hasErrors(fieldName)} ? 'is-invalid' : ''"
+               placeholder="name@example.com">
+
+        <div class="invalid-feedback" th:if="${#fields.hasErrors(fieldName)}" th:errors="*{__${fieldName}__}">
+        </div>
+    </div>
+</th:block>

@@ -1,0 +1,55 @@
+<th:block th:fragment="pagination(page, basePath, keyword, type, startDate, endDate)">
+    <nav class="mt-3" th:if="${page != null and page.totalPages > 1}">
+        <ul class="pagination justify-content-center">
+
+            <!-- Prev -->
+            <li class="page-item" th:classappend="${page.first} ? ' disabled' : ''">
+                <a class="page-link" th:href="@{${basePath}(
+                        page=${page.number-1},
+                        size=${page.size},
+                        keyword=${keyword},
+                        type=${type},
+                        startDate=${startDate},
+                        endDate=${endDate}
+                   )}">
+                    上一頁
+                </a>
+            </li>
+
+            <!-- Page numbers -->
+            <li class="page-item" th:each="i : ${#numbers.sequence(0, page.totalPages-1)}"
+                th:classappend="${i == page.number} ? ' active' : ''">
+                <a class="page-link" th:text="${i+1}" th:href="@{${basePath}(
+                        page=${i},
+                        size=${page.size},
+                        keyword=${keyword},
+                        type=${type},
+                        startDate=${startDate},
+                        endDate=${endDate}
+                   )}">
+                </a>
+            </li>
+
+            <!-- Next -->
+            <li class="page-item" th:classappend="${page.last} ? ' disabled' : ''">
+                <a class="page-link" th:href="@{${basePath}(
+                        page=${page.number+1},
+                        size=${page.size},
+                        keyword=${keyword},
+                        type=${type},
+                        startDate=${startDate},
+                        endDate=${endDate}
+                   )}">
+                    下一頁
+                </a>
+            </li>
+
+        </ul>
+
+        <div class="text-center text-muted small">
+            第 <span th:text="${page.number + 1}"></span> /
+            <span th:text="${page.totalPages}"></span> 頁，
+            共 <span th:text="${page.totalElements}"></span> 筆
+        </div>
+    </nav>
+</th:block>

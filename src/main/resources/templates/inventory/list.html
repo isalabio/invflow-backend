@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{layout/main :: layout(~{::section})}">
+
+<section>
+
+    <div th:replace="~{fragments/inventory-header :: InventoryHeader(
+                '庫存異動明細',
+                ${startDate},
+                ${endDate},
+                'logs',
+                ${itemId},
+                ${itemName},
+                true
+            )}">
+            
+    </div>
+
+    <nav class="navbar bg-body-tertiary">
+       <form th:action="@{/inventorylogs}" method="get" class="row g-2 align-items-end">
+        <div class="d-flex align-items-center gap-2 flex-nowrap filter-row">
+            <!-- keyword -->
+             <input type="text"
+                    name="keyword"
+                    th:value="${keyword}"
+                    placeholder="商品編號 / 品名 / 廠商"
+                    class="form-control keyword-input"/>
+            
+            <!-- start date -->
+             <label class="filter-field">
+                <span class="filter-label">起</span>
+                <input type="date"
+                       name="startDate"
+                       th:value="${startDate}"
+                       th:attr="min=${minDate}, max=${maxDate}"
+                       class="form-control filter-date erp-date"/>
+             </label>
+
+            <span class="text-secondary">~</span>
+
+            <!-- end date -->
+             <label class="filter-field">
+                <span class="filter-label">迄</span>
+                <input type="date"
+                       name="endDate"
+                       th:value="${endDate}"
+                       th:attr="min=${minDate}, max=${maxDate}"
+                       class="form-control filter-date erp-date"/>
+             </label>
+
+            <!-- 異動類型 -->
+             <label class="filter-field">
+                <span class="filter-label">異動類型</span>
+                <select name="type"
+                        class="form-control filter-date filter-select">
+
+                    <option value="" th:selected="${type == null}">全部</option>
+
+                    <option th:each="t : ${movementTypes}"
+                            th:value="${t}"
+                            th:text="${t.displayName}"
+                            th:selected="${t == type}">
+                    </option>
+                </select>
+             </label>
+
+        <button type="submit" class="btn btn-search">Search</button>
+        <a th:href="@{/inventorylogs}" class="btn btn-clear">Clear</a>
+        </div>
+        
+       </form>
+    </nav>
+
+    <div class="table-responsive">
+        <table class="table table-sm table-striped table-hover align-middle">
+            <thead>
+                <tr>
+                    <th>商品編號</th>
+                    <th>品名</th>
+                    <th>異動數</th>
+                    <th>異動類型</th>
+                    <th>建立時間</th>
+                    <th>建立者</th>
+                    <th>備註</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr th:if="${logs == null or logs.isEmpty()}">
+                    <td colspan="7" class="text-center text-muted">
+                        目前尚無庫存異動資料
+                    </td>
+                </tr>
+
+                <tr th:each="log : ${logs.content}">
+                    <td>
+                        <a th:text="${log.itemId()}" 
+                           th:href="@{/inventorylogs/{itemId}/summary(
+                                        itemId=${log.itemId()},
+                                        startDate=${startDate},
+                                        endDate=${endDate}
+                                       )}"></a>
+                    </td>
+                    <td th:text="${log.name()}"></td>
+                    <td th:text="${log.changeQuantity()}"></td>
+                    <td th:text="${log.movementType().getDisplayName}"></td>
+                    <td>
+                        <div th:text="${#temporals.format(log.createdAt(), 'yyyy-MM-dd')}"></div>
+                        <small class="text-muted"
+                               th:text="${#temporals.format(log.createdAt(), 'HH:mm:ss')}"></small>
+                    </td>
+                    <td th:text="${log.createdBy()}"></td>
+                    <td th:text="${log.note()}"></td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+    <div th:replace="~{fragments/pagination :: pagination(${logs}, '/inventorylogs', ${keyword}, ${type}, ${startDate}, ${endDate})}"></div>
+
+</section>
+
+</html>

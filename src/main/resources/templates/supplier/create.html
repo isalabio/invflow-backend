@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/main :: layout(~{::section})}">
+
+<section>
+
+    <h2 class="mb-4">新增廠商</h2>
+
+    <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+
+    <form th:action="@{/suppliers/create}" th:object="${supplierForm}" method="post" class="row g-3">
+
+        <div th:replace="~{fragments/form-fields :: inputText('col-md-8', '廠商名稱', 'supplierName')}"
+             class="invalid-feedback d-block"
+             th:if="${#fields.hasErrors('supplierName')}"
+             th:errors="*{supplierName}"></div>
+
+        <div th:replace="~{fragments/form-fields :: inputText('col-md-4', '聯絡人', 'contactName')}"></div>
+
+        <div th:replace="~{fragments/form-fields :: inputText('col-md-4', '電話', 'phone')}"></div>
+
+        <div th:replace="~{fragments/form-fields :: inputText('col-md-4', 'email', 'email')}"></div>
+
+        <div th:replace="~{fragments/form-fields :: inputText('col-md-4', '付款條件', 'paymentTerm')}"></div>
+
+        <div th:replace="~{fragments/form-fields :: inputTextarea('col-md-4', '備註', 'note', 4)}"></div>
+
+        <div class="col-12 mt-3">
+            <button type="submit" class="btn btn-dark">儲存</button>
+            <a class="btn btn-outline-secondary ms-2" th:href="@{/suppliers}">返回</a>
+        </div>
+    </form>
+
+</section>
+
+</html>

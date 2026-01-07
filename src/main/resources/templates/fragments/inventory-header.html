@@ -1,0 +1,55 @@
+<th:block th:fragment=
+    "InventoryHeader(title, startDate, endDate, activeTab, itemId, itemName, showActions)">
+
+    <div class="d-flex justify-content-between align-items-start mb-2">
+        <!-- 左邊 -->
+        <div>
+            <h2 class="mb-1" th:text="${title}"></h2>
+
+            <div class="text-muted mb-1" th:if="${itemId != null and !#strings.isEmpty(itemId)}">
+                <a class="font-monospace text-decoration-none"
+                   th:href="@{/items/{id}(id=${itemId})}" 
+                   th:text="${itemId}">
+                </a>
+
+                <span class="mx-2">•</span>
+                <span class="font-monospace" th:text="${itemName}"></span>
+            </div>
+
+            <div class="text-muted small">
+                區間：<span th:text="${startDate}"></span> ~ <span th:text="${endDate}"></span>
+            </div>
+        </div>
+
+    <!-- 右邊：按鍵 -->
+        <div class="d-flex gap-2 align-self-start">
+            
+            <div class="ms-auto" th:if="${showActions}">
+                <a sec:authorize="hasAnyRole('MANAGER', 'OPERATOR')"
+                    class="btn btn-sm btn-dark"
+                    th:href="@{/inventorylogs/create}">
+                新增
+                </a>
+                <a sec:authorize="hasAnyRole('MANAGER')"
+                    class="btn btn-sm btn-dark"
+                    th:href="@{/inventorylogs/adjust}">
+                庫存調整
+                </a>
+            </div>
+
+            <div class="d-flex gap-2">
+                <a class="btn btn-sm btn-outline-secondary" 
+                   th:if="${showBack}"
+                   th:href="@{/inventorylogs}">
+                    返回
+                </a>
+            </div>
+            
+
+        </div>
+    </div>
+
+        <div th:replace="~{fragments/Inventory-tabs::InventoryTabs(
+            ${activeTab}, ${startDate}, ${endDate}, ${keyword}, ${type}, ${itemId}
+        )}"></div>
+</th:block>

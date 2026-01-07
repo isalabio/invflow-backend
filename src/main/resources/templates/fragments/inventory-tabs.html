@@ -1,0 +1,51 @@
+<div th:fragment="InventoryTabs(activeTab, startDate, endDate, keyword, type, itemId)">
+    <ul class="nav nav-tabs mb-3">
+        <li class="nav-item">
+            <a class="nav-link"
+               th:classappend="${activeTab == 'logs'} ? ' active'"
+               th:href="@{/inventorylogs(
+                            startDate=${startDate}, 
+                            endDate=${endDate},
+                            keyword=${keyword},
+                            type=${type})}">
+               異動明細
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link"
+               th:classappend="${activeTab == 'summaryAll'} ? ' active'"
+               th:href="@{/inventorylogs/summaryAll(
+                            startDate=${startDate}, 
+                            endDate=${endDate},
+                            keyword=${keyword},
+                            type=${type}
+                        )}">
+               全品項明細
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link"
+               th:if="${itemId != null}"
+               th:classappend="${activeTab == 'summaryItem'} ? ' active'"
+               th:href="@{/inventorylogs/{itemId}/summary(
+                            itemId=${itemId},
+                            startDate=${startDate}, 
+                            endDate=${endDate},
+                            keyword=${keyword},
+                            type=${type}
+                        )}">
+               單品明細
+            </a>
+
+            <a class="nav-link disabled"
+               th:if="${itemId == null}"
+               href="javascript:void(0)"
+               title="請先點選商品編號">
+               單品明細
+            </a>
+        </li>
+    </ul>
+
+</div>

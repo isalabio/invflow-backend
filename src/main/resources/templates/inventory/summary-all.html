@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" 
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security"
+      xmlns:th="http://www.thymeleaf.org" 
+      th:replace="~{layout/main :: layout(~{::section})}">
+
+<section>      
+      <div th:replace="~{fragments/inventory-header :: InventoryHeader(
+              '全品項明細',
+              ${startDate},
+              ${endDate},
+              'summaryAll',
+              null,
+              null,
+              false
+            )}">
+      </div>
+      
+      <div class="table-responsive">
+            <table class="table table-sm table-striped table-hover align-middle">
+                  <thead>
+                        <tr>
+                              <th class="text-left">商品編號</th>
+                              <th class="text-end">期初</th>
+                              <th class="text-end">進貨</th>
+                              <th class="text-end">轉倉入</th>
+                              <th class="text-end">退貨入</th>
+                              <th class="text-end">手動入</th>
+                              <th class="text-end">銷貨</th>
+                              <th class="text-end">轉倉出</th>
+                              <th class="text-end">損壞</th>
+                              <th class="text-end">遺失</th>
+                              <th class="text-end">報廢</th>
+                              <th class="text-end">手動出</th>
+                              <th class="text-end">期末</th>
+                        </tr>
+                  </thead>
+                  <tbody>
+                        <!-- 空狀態 -->
+                        <tr th:if="${#lists.isEmpty(summaryAll)}">
+                              <td colspan="13" class="text-center text-muted">
+                                    目前尚無庫存異動資料
+                              </td>
+                        </tr>
+
+                        <!-- 有資料 -->
+                        <tr th:each="summary : ${summaryAll}">
+                              <td class="font-monospace" th:text="${summary.itemId()}"></td>
+                              <td class="text-end" th:text="${summary.beginning()}"></td>
+                              <td class="text-end" th:text="${summary.movementSummary().purchaseQuantity()}"></td>
+                              <td class="text-end" th:text="${summary.movementSummary().transferInQuantity()}"></td>
+                              <td class="text-end" th:text="${summary.movementSummary().returnInQuantity()}"></td>
+                              <td class="text-end" th:text="${summary.movementSummary().manualInQuantity()}"></td>
+                              <td class="text-end" th:text="${summary.movementSummary().saleQuantity()}"></td>
+                              <td class="text-end" th:text="${summary.movementSummary().transferOutQuantity()}"></td>
+                              <td class="text-end" th:text="${summary.movementSummary().damageQuantity()}"></td>
+                              <td class="text-end" th:text="${summary.movementSummary().lostQuantity()}"></td>
+                              <td class="text-end" th:text="${summary.movementSummary().scrapQuantity()}"></td>
+                              <td class="text-end" th:text="${summary.movementSummary().manualOutQuantity()}"></td>
+                              <td class="text-end" th:text="${summary.ending()}"></td>
+                        </tr>
+                  </tbody>
+            </table>
+      </div>
+</section>
+
+</html>

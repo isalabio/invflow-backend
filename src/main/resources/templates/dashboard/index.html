@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/main :: layout(~{::section})}">
+
+<section class="container-fluid">
+
+    <div class="d-flex justify-content-between align-items-end mb-3">
+        <div>
+            <h2 class="mb-1">庫存管理系統</h2>
+            <div class="text-muted"> 狀態總覽 </div>
+        </div>
+    </div>
+
+    <!-- KPI Row -->
+    <div class="row g-3 mb-3">
+        <div class="col-12 col-md-6 col-xl-3">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <div class="text-muted small">商品總數</div>
+                    <div class="fs-3 fw-bold" th:text="${vm.kpi.itemCount()}">0</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-6 col-xl-3">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <div class="text-muted small">低庫存商品數</div>
+                    <div class="fs-3 fw-bold" th:text="${vm.kpi.lowStockCount()}">0</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-6 col-xl-3">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <div class="text-muted small">今日入庫筆數</div>
+                    <div class="fs-3 fw-bold" th:text="${vm.kpi.todayInCount()}">0</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-6 col-xl-3">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <div class="text-muted small">今日出庫筆數</div>
+                    <div class="fs-3 fw-bold" th:text="${vm.kpi.todayOutCount()}">0</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Two columns -->
+    <div class="row g-3">
+
+        <!-- Recent movements -->
+        <div class="col-12 col-xl-8">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <div>
+                            <div class="fw-bold fs-5">最近 10 筆異動</div>
+                            <div class="text-muted small">依時間由新到舊排列</div>
+                        </div>
+                        <a class="btn btn-outline-secondary btn-sm" th:href="@{/inventorylogs}">查看全部</a>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-sm table-hover align-middle">
+                            <thead>
+                                <tr>
+                                    <th>商品</th>
+                                    <th class="text-end">變動</th>
+                                    <th class="text-end">目前庫存</th>
+                                    <th>類型</th>
+                                    <th>操作者</th>
+                                    <th>時間</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr th:if="${#lists.isEmpty(vm.recentMovements())}">
+                                    <td colspan="7" class="text-center text-muted py-4">目前尚無異動紀錄</td>
+                                </tr>
+
+                                <tr th:each="r : ${vm.recentMovements()}">
+                                    <td>
+                                        <div class="fw-semibold" th:text="${r.name()}"></div>
+                                        <div class="text-muted small" th:text="${r.itemId()}"></div>
+                                    </td>
+                                    <td class="text-end" th:text="${r.changeQuantity()}"></td>
+                                    <td class="text-center" th:text="${r.ending()}"></td>
+                                    <td th:text="${r.movementType().getDisplayName()}"></td>
+                                    <td th:text="${r.createdBy()}"></td>
+                                    <td th:text="${#temporals.format(r.createdAt(), 'yyyy-MM-dd HH:mm')}"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Low stock -->
+        <div class="col-12 col-xl-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <div class="fw-bold fs-5">庫存量低於安全庫存門檻</div>
+                        <a class="btn btn-outline-secondary btn-sm" th:href="@{/items}">查看全部</a>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-sm table-hover align-middle">
+                            <thead>
+                                <tr>
+                                    <th>商品</th>
+                                    <th class="text-end">庫存</th>
+                                    <th class="text-end">安全</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr th:if="${#lists.isEmpty(vm.lowStockItems())}">
+                                    <td colspan="3" class="text-center text-muted py-4">目前沒有庫存不足的商品</td>
+                                </tr>
+
+                                <tr th:each="x : ${vm.lowStockItems()}">
+                                    <td>
+                                        <div class="fw-semibold" th:text="${x.name()}">Item</div>
+                                        <div class="text-muted small" th:text="${x.itemId()}">IT0001</div>
+                                    </td>
+                                    <td class="text-end" th:text="${x.stock()}">0</td>
+                                    <td class="text-end" th:text="${x.safetyStock()}">0</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+</html>

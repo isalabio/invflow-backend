@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/main :: layout(~{::section})}">
+
+<section>
+
+    <h2 class="mb-4">新增品項</h2>
+
+    <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+
+    <form th:action="@{/items/create}" th:object="${itemForm}" method="post" class="row g-3">
+
+        <div th:replace="~{fragments/form-fields :: inputText('col-md-8', '品名', 'name')}"
+             class="invalid-feedback d-block"
+             th:if="${#fields.hasErrors('name')}"
+             th:errors="*{name}"></div>
+
+        <div th:replace="~{fragments/form-fields :: selectEnum(
+                '酒類型',
+                'wineType',
+                ${wineTypes},
+                'displayName' 
+                )}">
+        </div>
+
+        <div th:replace="~{fragments/form-fields :: inputText('col-md-4', '產地', 'originCountry')}"></div>
+
+        <div th:replace="~{fragments/form-fields :: inputNumber('col-md-4', '年份', 'vintage')}"></div>
+
+        <div th:replace="~{fragments/form-fields :: inputNumber('col-md-4', '容量(ml)', 'volumeMl')}"></div>
+
+        <div th:replace="~{fragments/form-fields :: inputNumber('col-md-4', '庫存', 'stock')}"></div>
+
+        <div th:replace="~{fragments/form-fields :: selectSupplier('廠商', 'supplierId', ${suppliers})}"></div>
+
+        <div class="col-12 mt-3">
+            <button type="submit" class="btn btn-dark">儲存</button>
+            <a class="btn btn-outline-secondary ms-2" th:href="@{/items}">返回</a>
+        </div>
+    </form>
+
+</section>
+
+</html>

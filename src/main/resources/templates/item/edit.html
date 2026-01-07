@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>修改商品 - Invflow</title>
+</head>
+
+<body>
+
+    <div th:replace="~{layout/main :: layout(~{::section})}">
+
+        <section class="container py-4">
+
+            <h2 class="mb-4">修改商品</h2>
+
+            <div class="card shadow-sm mx-auto" style="max-width: 900px;">
+                <div class="card-body">
+
+                    <form th:action="@{/items/{itemId}/edit(itemId=${itemId})}" th:object="${form}" method="post">
+
+                        <div th:replace="~{fragments/form-fields :: inputText('mb-3', '商品名稱', 'name')}"></div>
+
+                        <div th:replace="~{fragments/form-fields :: inputText('mb-3', '產地', 'originCountry')}"></div>
+
+                        <div th:replace="~{fragments/form-fields :: inputText('mb-3', '年份', 'vintage')}"></div>
+
+                        <div class="d-flex justify-content-end gap-2 mt-4">
+                            <button class="btn btn-success" type="submit">
+                                儲存
+                            </button>
+
+                            <a class="btn btn-outline-secondary" th:href="@{/items/{itemId}(itemId=${itemId})}">
+                                返回
+                            </a>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+        </section>
+    </div>
+
+</body>
+
+</html>

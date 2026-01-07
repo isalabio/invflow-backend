@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>庫存調整</title>
+</head>
+
+<body>
+
+    <div th:replace="~{layout/main :: layout(~{::section})}">
+
+        <section class="container py-4">
+
+            <h2 class="mb-4">調整明細</h2>
+
+            <div class="card shadow-sm mx-auto" style="max-width: 900px;">
+                <div class="card-body">
+
+                    <form th:action="@{/inventorylogs/adjust}" th:object="${adjustForm}" method="post">
+
+                        <div th:replace="~{fragments/form-fields :: inputText('mb-3', '商品編號', 'itemId')}"
+                             class="invalid-feedback d-block"
+                             th:if="${#fields.hasErrors(itemId')}"
+                             th:errors="*{itemId}"></div>
+
+                        <div th:replace="~{fragments/form-fields :: inputNumber('mb-3', '實際庫存數', 'actualStock')}"
+                             class="invalid-feedback d-block"
+                             th:if="${#fields.hasErrors(actualStock')}"
+                             th:errors="*{actualStock}"></div>
+
+                        <div th:replace="~{fragments/form-fields :: inputTextarea('mb-3', '調整原因', 'reason', 4)}"></div>
+
+                        <div class="d-flex justify-content-end gap-2 mt-4">
+                            <button class="btn btn-success" type="submit">
+                                儲存
+                            </button>
+
+                            <a class="btn btn-outline-secondary" th:href="@{/inventorylogs}">
+                                返回
+                            </a>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+        </section>
+    </div>
+
+</body>
+
+</html>

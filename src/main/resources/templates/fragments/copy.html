@@ -1,0 +1,13 @@
+<th:bloth th:fragment="copy(text, idSuffix)">
+    <span class="copy-wrapper d-inline-flex align-items-left">
+        <span th:id="|copy-${idSuffix}|" 
+              th:text="${text}"></span>
+        
+        <button type="button" 
+                class="btn btn-xxs btn-outline-secondary ms-2 copy-btn" 
+                th:onlick="|copyText('copy-${idSuffix}')|"
+                title="copy">
+            copy
+        </button>
+    </span>
+</th:bloth>

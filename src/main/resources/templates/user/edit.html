@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/main :: layout(~{::section})}">
+
+<section>
+
+    <!-- 標題 + 返回列表 -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0">編輯帳號</h2>
+        <a class="btn btn-sm btn-outline-secondary" th:href="@{/users}">
+            返回
+        </a>
+    </div>
+
+    <!-- 基本資訊（唯讀） -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title mb-3">帳號資訊</h5>
+
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label class="form-label">帳號</label>
+                    <input type="text" class="form-control" th:value="${user.userName()}" readonly>
+                </div>
+                
+                <div class="col-md-4">
+                    <label class="form-label">姓名</label>
+                    <input type="text" class="form-control" th:value="${user.fullName()}" readonly>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-control" th:value="${user.email()}" readonly>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 調整權限 -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title mb-3">調整權限</h5>
+
+            <form th:action="@{/users/{userName}/role(userName=${user.userName()})}" method="post">
+
+                <div class="row align-items-end">
+                    <div class="col-md-4">
+                        <label class="form-label">目前權限</label>
+                        <select class="form-select" name="role">
+                            <option value="ADMIN" th:selected="${user.role().name() == 'ADMIN'}">ADMIN</option>
+                            <option value="MANAGER" th:selected="${user.role().name() == 'MANAGER'}">MANAGER</option>
+                            <option value="OPERATOR" th:selected="${user.role().name() == 'OPERATOR'}">OPERATOR</option>
+                            <option value="VIEWER" th:selected="${user.role().name() == 'VIEWER'}">VIEWER</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-4">
+                        <button type="submit" class="btn btn-primary mt-3 mt-md-0">
+                            儲存權限變更
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 重設密碼 -->
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title mb-3">重設密碼</h5>
+            <p class="text-muted mb-3">
+                重設後系統會將密碼更新為新密碼，請再通知使用者登入後儘快修改。
+            </p>
+
+            <form th:action="@{/users/{userName}/password-reset(userName=${user.userName()})}" 
+                   method="post"
+                   th:object="${resetPasswordForm}">
+
+                <!-- 新密碼輸入欄位 -->
+                <div class="mb-3">
+                    <label class="form-label">新密碼</label>
+                    <input type="password" class="form-control" th:field="*{newPassword}" placeholder="請輸入新密碼" required>
+                </div>
+                
+                <!-- 顯示驗證錯誤 -->
+                <div class="text-danger mb-2" th:if="${#fields.hasErrors('newPassword')}" th:errors="*{newPassword}">
+                </div>
+                   
+                <button type="submit" class="btn btn-outline-danger" onclick="return confirm('確認要重設此帳號的密碼？');">
+                    重設密碼
+                </button>
+            </form>
+        </div>
+    </div>
+
+</section>
+
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>新增帳號</title>
+</head>
+
+<body>
+
+    <div th:replace="~{layout/main :: layout(~{::section})}">
+
+        <section class="container py-4">
+
+            <h2 class="mb-4">新增帳號</h2>
+
+            <div class="card shadow-sm mx-auto" style="max-width: 900px;">
+                <div class="card-body">
+
+                    <form th:action="@{/users/create}" th:object="${userForm}" method="post" class="row g-3">
+
+                        <div th:replace="~{fragments/form-fields :: inputText('mb-3', '帳號', 'userName')}"
+                             class="invalid-feedback d-block"
+                             th:if="${#fields.hasErrors('userName')}"
+                             th:errors="*{userName}"></div>
+
+                        <div th:replace="~{fragments/form-fields :: inputPassword('mb-3', '密碼', 'password')}"></div>
+
+                        <div th:replace="~{fragments/form-fields :: inputText('mb-3', '姓名', 'fullName')}"></div>
+
+                        <div class="d-flex justify-content-end gap-2 mt-4">
+                            <button class="btn btn-success" type="submit">
+                                儲存
+                            </button>
+
+                            <a class="btn btn-outline-secondary"
+                                th:href="@{/users}">
+                                返回
+                            </a>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+        </section>
+    </div>
+
+</body>
+
+</html>
