@@ -49,21 +49,21 @@ invflow 是一個以實務ERP為出發點而設計的「進銷存 / 庫存異動
 
 ## Role Permissions (Summary)
 
-> 實際權限以 `SecurityConfig` 與各 Controller `@PreAuthorize` 為準。
+> 實際權限以 `SecurityConfig` 與各 Controller `@PreAuthorize` 為準
 
-| Module                    | VIEWER | OPERATOR | MANAGER | ADMIN  |
-----------------------------------------------------------------------------
-| Dashboard / 查詢           |   ✅   |    ✅    |    ✅    |   ✅   |
-| Suppliers：查詢/詳情        |   ✅   |    ✅    |    ✅    |   ✅   |
-| Suppliers：新增/編輯        |   ❌   |    ❌    |    ✅    |   ❌（可視需求） |
-| Suppliers：啟用/停用        |   ❌   |    ❌    |    ✅    |   ✅   |
-| Items：查詢/詳情            |   ✅   |    ✅    |    ✅    |   ✅   |
-| Items：新增/編輯            |   ❌   |    ✅    |    ✅    |   ❌（可視需求） |
-| Items：啟用/停用            |   ❌   |    ❌    |    ✅    |   ✅   |
-| Inventory Logs：查詢       |   ✅   |    ✅    |    ✅    |   ✅   |
-| Inventory Logs：新增明細    |   ❌   |    ✅    |    ✅    |   ❌   |
-| Inventory Adjust：庫存調整  |   ❌   |    ❌    |    ✅    |   ❌   |
-| Users 管理                 |   ❌   |    ❌    |    ❌    |   ✅   |
+| Module / Action              | VIEWER | OPERATOR | MANAGER | ADMIN |
+|-----------------------------|:------:|:--------:|:-------:|:-----:|
+| Dashboard / 查詢            |   ✅   |    ✅    |   ✅    |  ✅   |
+| Suppliers / 查詢・詳情      |   ✅   |    ✅    |   ✅    |  ✅   |
+| Suppliers / 新增・編輯      |   ❌   |    ❌    |   ✅    |  ❌   |
+| Suppliers / 啟用・停用      |   ❌   |    ❌    |   ✅    |  ✅   |
+| Items / 查詢・詳情          |   ✅   |    ✅    |   ✅    |  ✅   |
+| Items / 新增・編輯          |   ❌   |    ❌    |   ✅    |  ❌   |
+| Items / 啟用・停用          |   ❌   |    ❌    |   ✅    |  ✅   |
+| Inventory Logs / 查詢       |   ✅   |    ✅    |   ✅    |  ✅   |
+| Inventory Logs / 新增明細   |   ❌   |    ✅    |   ✅    |  ❌   |
+| Inventory Adjust / 庫存調整 |   ❌   |    ❌    |   ✅    |  ❌   |
+| Users / 管理                |   ❌   |    ❌    |   ❌    |  ✅   |
 
 ---
 
